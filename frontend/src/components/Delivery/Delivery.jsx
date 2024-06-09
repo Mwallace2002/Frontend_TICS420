@@ -3,9 +3,7 @@ import Navbar from '../Navbar/Navbar.jsx';
 import QRCode from 'qrcode.react';
 import './Delivery.css';
 import './Delivery.css';
-import io from 'socket.io-client';
 
-const socket = io("http://localhost:4000/");
 
 function Delivery() {
   const [message, setMessage] = useState('');
@@ -20,15 +18,12 @@ function Delivery() {
     }
     // Aquí puedes enviar el mensaje al servidor de Socket.IO
     setMessages([...messages, message])
-    socket.emit('message', message);
     setMessage(''); // Limpiar el campo de mensaje después de enviar
   };
 
   useEffect(() => {
-   socket.on('message', receiveMessage);
 
    return () => {
-    socket.off('message', receiveMessage);
    }
 
   }, [])
@@ -126,7 +121,6 @@ const DeliveryPage = () => {
 
     window.open(whatsappURL, '_blank');
     // Aquí puedes enviar el mensaje al servidor de Socket.IO
-    socket.emit('message', message);
 
     // También puedes enviar el mensaje por correo electrónico u otras formas de comunicación
     sendEmail(message);
